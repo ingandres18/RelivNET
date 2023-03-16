@@ -13,7 +13,9 @@ namespace BusinessLogic
     {
         public RelivDbContext(DbContextOptions<RelivDbContext> options) : base(options) { }
         
-        public DbSet<Product>? Products { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<State> States { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{ABBBB74F-76C7-46D6-AC1C-07B3A4F74F89}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RelivMVC", "RelivMVC", "{9DCB6DEA-C29E-4255-A0FB-613B48901DB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelivMVC", "RelivMVC\RelivMVC.csproj", "{DFAB7712-1CE5-42D8-87B6-E235887498AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +31,16 @@ Global
 		{ABBBB74F-76C7-46D6-AC1C-07B3A4F74F89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABBBB74F-76C7-46D6-AC1C-07B3A4F74F89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABBBB74F-76C7-46D6-AC1C-07B3A4F74F89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFAB7712-1CE5-42D8-87B6-E235887498AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFAB7712-1CE5-42D8-87B6-E235887498AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFAB7712-1CE5-42D8-87B6-E235887498AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFAB7712-1CE5-42D8-87B6-E235887498AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DFAB7712-1CE5-42D8-87B6-E235887498AA} = {9DCB6DEA-C29E-4255-A0FB-613B48901DB2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ADDD703C-38DA-4D9B-91A0-CE693919D70B}
