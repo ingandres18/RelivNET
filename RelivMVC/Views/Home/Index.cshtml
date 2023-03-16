@@ -2,7 +2,52 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h2 class="text-center display-4 mb-5">Reliv Application</h2>
+
+
+<div class="card-deck mb-3 text-center">
+    <div class="card mb-4 shadow">
+        <div class="card-body">
+            <h4 class="mb-4"> Productos</h4>
+            <p>
+                Haga click en el boton para ir al frontal de administración de productos,
+                el cual le permitira gestionar la configuración de los distintos productos.
+            </p>
+            <a href="https://localhost:7252/Products" class="btn btn-lg btn-block btn-outline-success">Productos</a>
+            @*@Html.ActionLink("Administrar Caja", "Index", "Cajas", null, new { miAtributo = "Caja", @class = "btn btn-lg btn-block btn-outline-success" })*@
+            @*<a class="btn btn-lg btn-block btn-outline-success" href="#">Ingresar</a>*@
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-5" style="float:left">
+            <div class="card-deck mb-3 text-center">
+                <div class="card mb-4 shadow">
+                    <div class="card-body">
+                        <h4 class="mb-4"> Categorias</h4>
+                        <p>
+                            Haga click en el boton para ir al frontal de administración de categorias,
+                            el cual le permitira gestionar la configuración de las distintas categorias.
+                        </p>
+                        <a href="https://localhost:7252/Categories" class="btn btn-lg btn-block btn-outline-success">Categorias</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5" style="float:right">
+            <div class="card-deck mb-3 text-center">
+                <div class="card mb-4 shadow">
+                    <div class="card-body">
+                        <h4 class="mb-4"> Estados</h4>
+                        <p>
+                            Haga click en el boton para ir al frontal de administración de estados,
+                            el cual le permitira gestionar la configuración de los distintos estados.
+                        </p>
+                        <a href="https://localhost:7252/States" class="btn btn-lg btn-block btn-outline-success">Estados</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

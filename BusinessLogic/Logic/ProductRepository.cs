@@ -39,6 +39,7 @@ namespace BusinessLogic.Logic
         public async void UpdateProduct(Product product)
         {
             _context.Entry(product).State = EntityState.Modified;
+            Save();
           //var prod = await _context.Products.FindAsync(product.ProductId);
 
           //  prod.Stock = product.Stock;

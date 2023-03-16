@@ -6,31 +6,32 @@ using System.Net.Http.Headers;
 
 namespace RelivMVC.Controllers
 {
-    public class ProductsController : Controller
+    public class CategoriesController : Controller
     {
         private readonly RelivMVCContext _context;
         string Baseurl = "https://localhost:7200/";
-        public ProductsController(RelivMVCContext context)
+
+        public CategoriesController(RelivMVCContext context)
         {
             _context = context;
         }
-
-        // GET: Products
         public async Task<IActionResult> Index()
         {
-            List<Product> ProdInfo = new List<Product>();
+            List<Category> CatInfo = new List<Category>();
             using (var client = new HttpClient())
+            
             {
                 client.BaseAddress = new Uri(Baseurl);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage Res = await client.GetAsync("Product");
+                HttpResponseMessage Res = await client.GetAsync("/api/Category");
                 if (Res.IsSuccessStatusCode)
                 {
                     var EmpResponse = Res.Content.ReadAsStringAsync().Result;
-                    ProdInfo = JsonConvert.DeserializeObject<List<Product>>(EmpResponse);
+                    CatInfo = JsonConvert.DeserializeObject<List<Category>>(EmpResponse);
                 }
-                return View(ProdInfo);
+
+                return View(CatInfo);
             }
         }
         public async Task<IActionResult> Details(int? id)
@@ -39,25 +40,25 @@ namespace RelivMVC.Controllers
             {
                 return NotFound();
             }
-            Product ProdInfo = null;
+            Category CatInfo = null;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(Baseurl);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage Res = await client.GetAsync($"Product/{id}");
+                HttpResponseMessage Res = await client.GetAsync($"/api/Category/{id}");
                 if (Res.IsSuccessStatusCode)
                 {
                     var EmpResponse = Res.Content.ReadAsStringAsync().Result;
-                    ProdInfo = JsonConvert.DeserializeObject<Product>(EmpResponse);
+                    CatInfo = JsonConvert.DeserializeObject<Category>(EmpResponse);
                 }
             }
-            if (ProdInfo == null)
+            if (CatInfo == null)
             {
                 return NotFound();
             }
 
-            return View(ProdInfo);
+            return View(CatInfo);
         }
         public IActionResult Create()
         {
@@ -66,7 +67,7 @@ namespace RelivMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,Name,Price,Stock")] Product product)
+        public async Task<IActionResult> Create([Bind("CategoryId,Description")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -78,19 +79,12 @@ namespace RelivMVC.Controllers
 
                     var obj = new
                     {
-
-                        Name = product.Name,
-                        Price = product.Price,
-                        Stock = product.Stock,
-                        CategoryId = 4,
-                        StateId = 4
-                        //CategoryId = product.Category.CategoryId,
-                        //StateId = product.State.StateId
+                        Description = category.Description
                     };
 
                     JsonContent content = JsonContent.Create(obj);
 
-                    HttpResponseMessage Res = await client.PostAsync("Product",content);
+                    HttpResponseMessage Res = await client.PostAsync("/api/Category", content);
                     if (Res.IsSuccessStatusCode)
                     {
                         var EmpResponse = Res.Content.ReadAsStringAsync().Result;
@@ -99,8 +93,9 @@ namespace RelivMVC.Controllers
                     }
                 }
             }
-            return View(product);
+            return View(category);
         }
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -108,39 +103,37 @@ namespace RelivMVC.Controllers
                 return NotFound();
             }
 
-            Product ProdInfo = null;
+            Category CatInfo = null;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(Baseurl);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage Res = await client.GetAsync($"Product/{id}");
-
+                HttpResponseMessage Res = await client.GetAsync($"/api/Category/{id}");
                 if (Res.IsSuccessStatusCode)
                 {
                     var EmpResponse = Res.Content.ReadAsStringAsync().Result;
-                    ProdInfo = JsonConvert.DeserializeObject<Product>(EmpResponse);
+                    CatInfo = JsonConvert.DeserializeObject<Category>(EmpResponse);
                 }
             }
-            if (ProdInfo == null)
+            if (CatInfo == null)
             {
                 return NotFound();
             }
-            return View(ProdInfo);
+            return View(CatInfo);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Name,Price,Stock")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,Description")] Category category)
         {
-            if (id != product.ProductId)
+            if (id != category.CategoryId)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Baseurl);
@@ -149,19 +142,13 @@ namespace RelivMVC.Controllers
 
                     var obj = new
                     {
-                        ProductId = product.ProductId,
-                        Name = product.Name,
-                        Price = product.Price,
-                        Stock = product.Stock,
-                        CategoryId = 4,
-                        StateId = 4
-                        //CategoryId = product.Category.CategoryId,
-                        //StateId = product.State.StateId
+                        CategoryId = category.CategoryId,
+                        Description = category.Description
                     };
 
                     JsonContent content = JsonContent.Create(obj);
 
-                    HttpResponseMessage Res = await client.PutAsync("Product", content);
+                    HttpResponseMessage Res = await client.PutAsync("/api/Category", content);
                     if (Res.IsSuccessStatusCode)
                     {
                         var EmpResponse = Res.Content.ReadAsStringAsync().Result;
@@ -169,31 +156,30 @@ namespace RelivMVC.Controllers
                         return RedirectToAction(nameof(Index));
                     }
                 }
-
             }
-            return View(product);
+            return View(category);
         }
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null )
+            if (id == null)
             {
                 return NotFound();
             }
-            Product ProdInfo = null;
+            Category CatInfo = null;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(Baseurl);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage Res = await client.GetAsync($"Product/{id}");
+                HttpResponseMessage Res = await client.GetAsync($"/api/Category/{id}");
                 if (Res.IsSuccessStatusCode)
                 {
                     var EmpResponse = Res.Content.ReadAsStringAsync().Result;
-                    ProdInfo = JsonConvert.DeserializeObject<Product>(EmpResponse);
+                    CatInfo = JsonConvert.DeserializeObject<Category>(EmpResponse);
                 }
             }
 
-            return View(ProdInfo);
+            return View(CatInfo);
         }
 
         [HttpPost, ActionName("Delete")]
@@ -206,7 +192,7 @@ namespace RelivMVC.Controllers
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage Res = await client.DeleteAsync($"Product/{id}");
+                HttpResponseMessage Res = await client.DeleteAsync($"/api/Category/{id}");
                 if (Res.IsSuccessStatusCode)
                 {
 
@@ -216,9 +202,9 @@ namespace RelivMVC.Controllers
             return View(id);
         }
 
-        private bool ProductExists(int id)
+        private bool CategoryExists(int id)
         {
-            return (_context.Product?.Any(e => e.ProductId == id)).GetValueOrDefault();
+          return (_context.Category?.Any(e => e.CategoryId == id)).GetValueOrDefault();
         }
     }
 }

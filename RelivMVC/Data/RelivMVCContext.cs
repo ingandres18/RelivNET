@@ -15,5 +15,9 @@ namespace RelivMVC.Data
         }
 
         public DbSet<RelivMVC.Models.Product> Product { get; set; } = default!;
+
+        public DbSet<RelivMVC.Models.Category>? Category { get; set; }
+
+        public DbSet<RelivMVC.Models.State>? State { get; set; }
     }
 }
