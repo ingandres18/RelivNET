@@ -61,9 +61,55 @@ namespace RelivMVC.Controllers
 
             return View(ProdInfo);
         }
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            List<Category> CatInfo = new List<Category>();
+            List<State> StateInfo = new List<State>();
+
+            var prod = new Product();
+            using (var client = new HttpClient())
+
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage Ress = await client.GetAsync("/api/Category");
+                if (Ress.IsSuccessStatusCode)
+                {
+                    var EmpResponse = Ress.Content.ReadAsStringAsync().Result;
+                    CatInfo = JsonConvert.DeserializeObject<List<Category>>(EmpResponse);
+                }
+                HttpResponseMessage Resss = await client.GetAsync("/api/State");
+                if (Ress.IsSuccessStatusCode)
+                {
+                    var EmpResponse = Resss.Content.ReadAsStringAsync().Result;
+                    StateInfo = JsonConvert.DeserializeObject<List<State>>(EmpResponse);
+                }
+
+                List<SelectListItem> cats = new List<SelectListItem>();
+                List<SelectListItem> states = new List<SelectListItem>();
+
+                CatInfo.ForEach(s => {
+                    cats.Add(new SelectListItem
+                    {
+                        Text = s.Description,
+                        Value = s.CategoryId.ToString()
+                    });
+                });
+             
+                prod.Category = cats;
+
+                StateInfo.ForEach(s => {
+                    states.Add(new SelectListItem
+                    {
+                        Text = s.Description,
+                        Value = s.StateId.ToString()
+                    });
+                });
+
+                prod.State = states;
+            }
+                return View(prod);
         }
 
         [HttpPost]
@@ -72,12 +118,16 @@ namespace RelivMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                List<Category> CatInfo = new List<Category>();
                 using (var client = new HttpClient())
+
                 {
                     client.BaseAddress = new Uri(Baseurl);
                     client.DefaultRequestHeaders.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
+                 
+               
                     var obj = new
                     {
 
