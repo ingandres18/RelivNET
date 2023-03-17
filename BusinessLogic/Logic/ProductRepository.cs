@@ -33,22 +33,12 @@ namespace BusinessLogic.Logic
         {
             _context.Products.Add(product);
             Save();
-            //return await _context.SaveChangesAsync() > 0;
         }
 
         public async void UpdateProduct(Product product)
         {
             _context.Entry(product).State = EntityState.Modified;
             Save();
-          //var prod = await _context.Products.FindAsync(product.ProductId);
-
-          //  prod.Stock = product.Stock;
-          //  prod.State = product.State;
-          //  prod.Price = product.Price;
-            
-
-          // _context.Update(prod);
-          //return await _context.SaveChangesAsync() > 0;
         }
 
         public void Save()

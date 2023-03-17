@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using RelivMVC.Data;
 using RelivMVC.Models;
@@ -30,6 +31,7 @@ namespace RelivMVC.Controllers
                     var EmpResponse = Res.Content.ReadAsStringAsync().Result;
                     ProdInfo = JsonConvert.DeserializeObject<List<Product>>(EmpResponse);
                 }
+
                 return View(ProdInfo);
             }
         }
@@ -82,7 +84,7 @@ namespace RelivMVC.Controllers
                         Name = product.Name,
                         Price = product.Price,
                         Stock = product.Stock,
-                        CategoryId = 4,
+                        CategoryId = 10,
                         StateId = 4
                         //CategoryId = product.Category.CategoryId,
                         //StateId = product.State.StateId
